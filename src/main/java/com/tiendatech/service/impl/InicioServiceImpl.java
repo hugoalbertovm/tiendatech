@@ -33,4 +33,9 @@ public class InicioServiceImpl implements InicioService {
     public void eliminar(Long id) {
         inicioDao.deleteById(id);
     }
+
+    @Override
+    public Optional<Inicio> obtenerPrimerRegistro() {
+        return inicioDao.findTopByOrderByIdAsc();
+    }
 }

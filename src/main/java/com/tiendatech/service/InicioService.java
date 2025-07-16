@@ -12,4 +12,6 @@ public interface InicioService {
     Inicio guardar(Inicio inicio);
 
     void eliminar(Long id);
+
+    Optional<Inicio> obtenerPrimerRegistro();
 }

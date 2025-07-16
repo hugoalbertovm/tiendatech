@@ -16,7 +16,7 @@ public class InicioClienteController {
     @GetMapping({"/", "/index"})
     public String mostrarInicioCliente(Model model) {
 
-        Inicio inicio = inicioService.obtenerPorId(12L).orElse(null);
+        Inicio inicio = inicioService.obtenerPrimerRegistro().orElse(null);
 
         if (inicio == null) {
             model.addAttribute("error", "No se ha encontrado el registro de inicio.");
