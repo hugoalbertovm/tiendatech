@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>TiendaTech - Inicio</title>
+        <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    </head>
+    <body>
+
+        <header>
+            <h1>TiendaTech</h1>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/}" class="activo">Inicio</a></li>
+                    <li><a th:href="@{/categorias}">Categorías</a></li>
+                    <li><a th:href="@{/ofertas}">Ofertas</a></li>
+                    <li><a th:href="@{/productos}">Productos</a></li>
+                    <li><a th:href="@{/carrito}">Carrito</a></li>
+                    <li><a th:href="@{/faq}">FAQ</a></li>
+                    <li><a th:href="@{/acerca}">Acerca</a></li>
+                    <li><a th:href="@{/contacto}">Contacto</a></li>
+                    <!--<li style="float: right;">
+                        <a th:href="@{/login}" class="btn-admin">Ingresar</a>
+                    </li>-->
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="bienvenida">
+                <!-- Cargar dinámicamente el título y texto de bienvenida -->
+                <h2 th:text="${inicio.titulo}">Bienvenido a TiendaTech</h2>
+                <p th:text="${inicio.bienvenidaTexto}">Explora la mejor tecnología a precios accesibles.</p>
+                <a th:href="@{/productos}" class="boton-inicio">Explorar productos</a>
+            </section>
+
+            <section class="banner-inicio">
+                <!-- Cargar la imagen dinámica desde la base de datos -->
+                <img th:src="@{'/img/' + ${inicio.imagenBanner}}" alt="Banner TiendaTech">
+            </section>
+
+            <section class="titulo-mapa">
+                <h2>Mapa</h2>
+                <p>Nuestra ubicación</p>
+            </section>
+
+            <section class="mapa-ancho">
+                <!-- Cargar el mapa dinámicamente -->
+                <iframe th:src="@{${inicio.ubicacionMapa}}" frameborder="0" allowfullscreen></iframe>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2025 TiendaTech - Todos los derechos reservados.</p>
+        </footer>
+
+    </body>
+</html>

@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Productos - TiendaTech</title>
+        <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    </head>
+    <body>
+
+        <header>
+            <h1>TiendaTech</h1>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li><a th:href="@{/categorias}">Categorías</a></li>
+                    <li><a th:href="@{/ofertas}">Ofertas</a></li>
+                    <li><a th:href="@{/productos}" class="activo">Productos</a></li>
+                    <li><a th:href="@{/carrito}">Carrito</a></li>
+                    <li><a th:href="@{/faq}">FAQ</a></li>
+                    <li><a th:href="@{/acerca}">Acerca</a></li>
+                    <li><a th:href="@{/contacto}">Contacto</a></li>
+                    <!--<li style="float: right;">
+                        <a th:href="@{/login}" class="btn-admin">Ingresar</a>
+                    </li>-->
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="bienvenida">
+                <h2>Nuestros Productos</h2>
+                <p>Explorá el catálogo de tecnología disponible.</p>
+            </section>
+
+            <section class="productos-grid">
+                <div class="producto-card" th:each="producto : ${productos}">
+                    <img th:src="@{'/img/' + ${producto.imagen}}" alt="Imagen del producto">
+                    <h3 th:text="${producto.nombre}">Nombre del producto</h3>
+                    <p class="precio" th:text="'₡ ' + ${producto.precio}">Precio</p>
+                    <p th:text="${producto.descripcion}">Descripción</p>
+                    <button class="boton-agregar">Agregar al carrito</button>
+                </div>
+            </section>
+
+            <p th:if="${productos == null or #lists.isEmpty(productos)}" class="mensaje-vacio">No hay productos disponibles.</p>
+        </main>
+
+        <footer>
+            <p>© 2025 TiendaTech - Todos los derechos reservados.</p>
+        </footer>
+
+    </body>
+</html>

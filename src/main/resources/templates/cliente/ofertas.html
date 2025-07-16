@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <title>Ofertas - TiendaTech</title>
+        <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    </head>
+    <body>
+
+        <header>
+            <h1>TiendaTech</h1>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li><a th:href="@{/categorias}">Categorías</a></li>
+                    <li><a th:href="@{/ofertas}" class="activo">Ofertas</a></li>
+                    <li><a th:href="@{/productos}">Productos</a></li>
+                    <li><a th:href="@{/carrito}">Carrito</a></li>
+                    <li><a th:href="@{/faq}">FAQ</a></li>
+                    <li><a th:href="@{/acerca}">Acerca</a></li>
+                    <li><a th:href="@{/contacto}">Contacto</a></li>
+                    <!--<li style="float: right;">
+                        <a th:href="@{/login}" class="btn-admin">Ingresar</a>
+                    </li>-->
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="bienvenida">
+                <h2>Ofertas Especiales</h2>
+                <p>¡Aprovechá nuestras promociones por tiempo limitado!</p>
+            </section>
+
+            <section class="ofertas-contenido">
+                <article th:each="oferta : ${ofertas}" class="oferta-card">
+                    <h3 th:text="${oferta.titulo}">Título de la oferta</h3>
+                    <p th:text="${oferta.descripcion}">Descripción de la oferta</p>
+                    <p><strong>Descuento:</strong> <span th:text="${oferta.descuento} + '%'">25%</span></p>
+                    <p><strong>Vigencia:</strong> 
+                        <span th:text="${#temporals.format(oferta.fechaInicio, 'dd/MM/yyyy')}">Inicio</span> - 
+                        <span th:text="${#temporals.format(oferta.fechaFin, 'dd/MM/yyyy')}">Fin</span>
+                    </p>
+                </article>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2025 TiendaTech - Todos los derechos reservados.</p>
+        </footer>
+
+    </body>
+</html>
