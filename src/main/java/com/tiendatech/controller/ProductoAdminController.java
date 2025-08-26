@@ -3,8 +3,10 @@ package com.tiendatech.controller;
 import com.tiendatech.dao.CategoriaDao;
 import com.tiendatech.dao.ProductoDao;
 import com.tiendatech.dao.ProductoOfertaDao;
+import com.tiendatech.dao.CarritoItemDao;
 import com.tiendatech.domain.Producto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -15,12 +17,12 @@ public class ProductoAdminController {
 
     @Autowired
     private ProductoDao productoDao;
-
     @Autowired
     private ProductoOfertaDao productoOfertaDao;
-
     @Autowired
     private CategoriaDao categoriaDao;
+    @Autowired
+    private CarritoItemDao carritoItemDao;
 
     @GetMapping
     public String listar(Model model) {
@@ -50,13 +52,25 @@ public class ProductoAdminController {
 
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Long id, Model model) {
-        if (productoOfertaDao.existsByProductoId(id)) {
+
+        if (productoOfertaDao.existsByProducto_Id(id)) {
             model.addAttribute("error", "El producto no puede eliminarse porque está asociado a una oferta.");
             model.addAttribute("productos", productoDao.findAll());
             return "admin/productos";
         }
 
-        productoDao.deleteById(id);
+        if (carritoItemDao.existsByProducto_Id(id)) {
+            model.addAttribute("error", "No se puede eliminar un producto que está en carritos activos.");
+            model.addAttribute("productos", productoDao.findAll());
+            return "admin/productos";
+        }
+
+        try {
+            productoDao.deleteById(id);
+        } catch (DataIntegrityViolationException ex) {
+            model.addAttribute("error", "El producto no puede eliminarse porque está referenciado (carritos/ofertas/pedidos).");
+        }
+
         model.addAttribute("productos", productoDao.findAll());
         return "admin/productos";
     }

@@ -30,6 +30,18 @@ public class Acerca implements Serializable {
 
     private String imagen;
 
-    @Column(name = "actualizado_en")
+    @Column(name = "actualizado_en", nullable = false)
     private Timestamp actualizadoEn;
+
+    @PrePersist
+    public void prePersist() {
+        if (actualizadoEn == null) {
+            actualizadoEn = new Timestamp(System.currentTimeMillis());
+        }
+    }
+
+    @PreUpdate
+    public void preUpdate() {
+        actualizadoEn = new Timestamp(System.currentTimeMillis());
+    }
 }

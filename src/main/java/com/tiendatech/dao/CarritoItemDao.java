@@ -7,11 +7,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface CarritoItemDao extends JpaRepository<CarritoItem, Long> {
 
-    List<CarritoItem> findByCarritoId(Long idCarrito);
+    List<CarritoItem> findByCarrito_Id(Long idCarrito);
 
-    boolean existsByCarritoId(Long idCarrito);
+    boolean existsByCarrito_Id(Long idCarrito);
 
-    Optional<CarritoItem> findByCarritoIdAndProductoIdAndColor(Long idCarrito, Long idProducto, String color);
+    Optional<CarritoItem> findByCarrito_IdAndProducto_IdAndColor(Long idCarrito, Long idProducto, String color);
 
-    long countByCarritoId(Long idCarrito);
+    long countByCarrito_Id(Long idCarrito);
+
+    boolean existsByProducto_Id(Long productoId);
 }

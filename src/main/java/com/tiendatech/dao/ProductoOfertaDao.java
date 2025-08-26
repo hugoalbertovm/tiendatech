@@ -8,5 +8,5 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface ProductoOfertaDao extends JpaRepository<ProductoOferta, ProductoOfertaId> {
 
-    boolean existsByProductoId(Long productoId);
+    boolean existsByProducto_Id(Long productoId);
 }

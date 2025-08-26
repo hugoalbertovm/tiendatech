@@ -29,15 +29,12 @@ public class CarritoClienteController {
     @Autowired
     private ClienteDao clienteDao;
 
-    /**
-     * Obtiene el ID del cliente autenticado (username = email).
-     */
     private Long getCurrentUserId() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth == null || !auth.isAuthenticated() || auth instanceof AnonymousAuthenticationToken) {
-            return null; // no autenticado
+            return null;
         }
-        String email = auth.getName(); // en tu login el username es el email
+        String email = auth.getName();
         return clienteDao.findByEmail(email)
                 .map(c -> c.getId())
                 .orElse(null);
@@ -47,19 +44,17 @@ public class CarritoClienteController {
     public String verCarrito(Model model) {
         Long userId = getCurrentUserId();
         if (userId == null) {
-            // si no está logueado, lo mandamos al login de cliente
             return "redirect:/cliente/login_cliente";
         }
 
         Carrito carrito = carritoService.obtenerCarritoAbierto(userId);
 
         List<CarritoItem> items = (carrito != null)
-                ? itemDao.findByCarritoId(carrito.getId())
+                ? itemDao.findByCarrito_Id(carrito.getId())
                 : Collections.emptyList();
 
         BigDecimal total = items.stream()
-                .map(i -> i.getPrecioUnitario()
-                .multiply(BigDecimal.valueOf(i.getCantidad().longValue())))
+                .map(i -> i.getPrecioUnitario().multiply(BigDecimal.valueOf(i.getCantidad())))
                 .reduce(BigDecimal.ZERO, BigDecimal::add);
 
         int totalItems = items.stream().mapToInt(CarritoItem::getCantidad).sum();

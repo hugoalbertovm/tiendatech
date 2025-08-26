@@ -31,7 +31,7 @@ public class CarritoAdminController {
         var itemsCount = carritos.stream()
                 .collect(java.util.stream.Collectors.toMap(
                         Carrito::getId,
-                        c -> itemDao.countByCarritoId(c.getId())
+                        c -> itemDao.countByCarrito_Id(c.getId())
                 ));
 
         model.addAttribute("carrito", carritos);
@@ -67,7 +67,7 @@ public class CarritoAdminController {
 
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Long id) {
-        if (itemDao.existsByCarritoId(id)) {
+        if (itemDao.existsByCarrito_Id(id)) {
             String msg = UriUtils.encode("No se puede eliminar un carrito con ítems asociados.", StandardCharsets.UTF_8);
             return "redirect:/admin/carrito?error=" + msg;
         }

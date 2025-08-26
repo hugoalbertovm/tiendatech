@@ -29,7 +29,7 @@ public class CarritoServiceImpl implements CarritoService {
     @Override
     @Transactional
     public Carrito agregarItem(Long idUsuario, Long idProducto, String color, int cantidad) {
-        color = (color == null) ? "" : color;
+        color = (color == null) ? "" : color.trim();
         cantidad = Math.max(1, cantidad);
 
         var carrito = carritoDao.findFirstByUsuarioIdAndEstadoOrderByCreadoEnDesc(idUsuario, EstadoCarrito.ABIERTO)
@@ -38,12 +38,16 @@ public class CarritoServiceImpl implements CarritoService {
                     var u = new Cliente();
                     u.setId(idUsuario);
                     c.setUsuario(u);
+                    c.setEstado(EstadoCarrito.ABIERTO);
                     return carritoDao.save(c);
                 });
 
         var producto = productoDao.findById(idProducto).orElseThrow();
 
-        var item = itemDao.findByCarritoIdAndProductoIdAndColor(carrito.getId(), idProducto, color).orElse(null);
+        var item = itemDao
+                .findByCarrito_IdAndProducto_IdAndColor(carrito.getId(), idProducto, color)
+                .orElse(null);
+
         if (item == null) {
             item = new CarritoItem();
             item.setCarrito(carrito);
@@ -69,7 +73,7 @@ public class CarritoServiceImpl implements CarritoService {
     @Override
     @Transactional
     public void vaciar(Long idCarrito) {
-        for (var it : itemDao.findByCarritoId(idCarrito)) {
+        for (var it : itemDao.findByCarrito_Id(idCarrito)) {
             itemDao.deleteById(it.getId());
         }
     }
