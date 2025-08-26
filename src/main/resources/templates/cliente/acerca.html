@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Acerca - TiendaTech</title>
+        <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+    </head>
+    <body>
+        <header>
+            <h1>TiendaTech</h1>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li><a th:href="@{/categorias}">Categorías</a></li>
+                    <li><a th:href="@{/ofertas}">Ofertas</a></li>
+                    <li><a th:href="@{/productos}">Productos</a></li>
+                    <li><a th:href="@{/carrito}">Carrito</a></li>
+                    <li><a th:href="@{/faq}">FAQ</a></li>
+                    <li><a th:href="@{/acerca}" class="activo">Acerca</a></li>
+                    <li><a th:href="@{/contacto}">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="contenedor">
+                <h2 class="titulo">Acerca de TiendaTech</h2>
+
+                <div class="acerca-bloque">
+                    <!-- Columna de texto -->
+                    <div class="acerca-texto">
+                        <!-- Título interno opcional (evita duplicar el H2) -->
+                        <h3
+                            th:if="${acerca != null
+                            and !#strings.isEmpty(acerca.titulo)
+                            and !#strings.equalsIgnoreCase(acerca.titulo,'Acerca de TiendaTech')}"
+                            th:text="${acerca.titulo}">
+                            Nuestra historia
+                        </h3>
+
+                        <p th:if="${acerca != null}" th:text="${acerca.intro}">
+                            En TiendaTech nos apasiona la tecnología. Ofrecemos productos y servicio de primera.
+                        </p>
+
+                        <h4>Misión</h4>
+                        <p th:text="${acerca != null ? acerca.mision : ''}">Misión…</p>
+
+                        <h4>Visión</h4>
+                        <p th:text="${acerca != null ? acerca.vision : ''}">Visión…</p>
+
+                        <h4>Valores</h4>
+
+                        <ul th:with="
+                            src=${acerca != null ? acerca.valores : ''},
+                            s1=${#strings.replace(src, '•', '|')},
+                            s2=${#strings.replace(s1, ',', '|')},
+                            s3=${#strings.replace(s2, ';', '|')}
+                            ">
+                            <li th:each="v : ${#strings.arraySplit(s3, '|')}"
+                                th:if="${v != null and !#strings.isEmpty(#strings.trim(v))}"
+                                th:text="${#strings.trim(v)}">
+                                Valor
+                            </li>
+                        </ul>
+
+                    </div>
+
+                    <!-- Columna de imagen -->
+                    <div class="acerca-imagen"
+                         th:if="${acerca != null and !#strings.isEmpty(#strings.trim(acerca.imagen))}">
+                        <img th:src="@{'/img/' + ${#strings.trim(acerca.imagen)}}" alt="Acerca" />
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2025 TiendaTech - Todos los derechos reservados.</p>
+        </footer>
+    </body>
+</html>

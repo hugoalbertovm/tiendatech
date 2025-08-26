@@ -21,5 +21,5 @@ public class Inicio {
     private String imagenBanner;
 
     @Column(nullable = false, columnDefinition = "TEXT")
-    private String ubicacionMapa; // URL del mapa o la dirección de la tienda
+    private String ubicacionMapa;
 }

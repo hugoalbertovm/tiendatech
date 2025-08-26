@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8" />
+        <title>Contacto - TiendaTech</title>
+        <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+    </head>
+    <body>
+
+        <header>
+            <h1>TiendaTech</h1>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li><a th:href="@{/categorias}">Categorías</a></li>
+                    <li><a th:href="@{/ofertas}">Ofertas</a></li>
+                    <li><a th:href="@{/productos}">Productos</a></li>
+                    <li><a th:href="@{/carrito}">Carrito</a></li>
+                    <li><a th:href="@{/faq}">FAQ</a></li>
+                    <li><a th:href="@{/acerca}">Acerca</a></li>
+                    <li><a th:href="@{/contacto}" class="activo">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main>
+            <section class="contenedor">
+                <h2 class="titulo">Contáctanos</h2>
+
+                <div class="contacto-container">
+                    <div class="formulario">
+
+                        <div class="alert ok" th:if="${ok}" th:text="${ok}"></div>
+
+                        <form th:action="@{/contacto}" method="post" th:object="${contacto}" novalidate>
+                            <input type="hidden" th:name="${_csrf?.parameterName}" th:value="${_csrf?.token}" />
+
+                            <div class="campo">
+                                <label for="nombre">Nombre:</label>
+                                <input id="nombre" type="text" th:field="*{nombre}" required />
+                                <small class="error" th:if="${#fields.hasErrors('nombre')}" th:errors="*{nombre}">Error</small>
+                            </div>
+
+                            <div class="campo">
+                                <label for="email">Email:</label>
+                                <input id="email" type="email" th:field="*{email}" required />
+                                <small class="error" th:if="${#fields.hasErrors('email')}" th:errors="*{email}">Error</small>
+                            </div>
+
+                            <div class="campo">
+                                <label for="mensaje">Mensaje:</label>
+                                <textarea id="mensaje" rows="4" th:field="*{mensaje}" required></textarea>
+                                <small class="error" th:if="${#fields.hasErrors('mensaje')}" th:errors="*{mensaje}">Error</small>
+                            </div>
+
+                            <button type="submit" class="btn-primario">Enviar</button>
+                        </form>
+                    </div>
+
+                    <div class="mapa-container">
+                        <iframe
+                            title="Mapa TiendaTech"
+                            loading="lazy"
+                            allowfullscreen
+                            referrerpolicy="no-referrer-when-downgrade"
+                            src="https://maps.google.com/maps?q=San%20José%20Costa%20Rica&t=&z=13&ie=UTF8&iwloc=&output=embed">
+                        </iframe>
+                    </div>
+                </div>
+
+                <div class="info-contacto" style="margin-top: 28px;">
+                    <h3 style="margin-bottom:6px;">Teléfono / WhatsApp</h3>
+                    <p><a href="https://wa.me/50685676800" target="_blank">+506 8567-6800</a></p>
+                </div>
+
+            </section>
+        </main>
+
+        <footer>
+            <p>© 2025 TiendaTech - Todos los derechos reservados.</p>
+        </footer>
+    </body>
+</html>

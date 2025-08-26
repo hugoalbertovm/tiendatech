@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.Data;
 
 @Entity
+@Table(name = "usuario")
 @Data
 public class Cliente {
 
@@ -11,20 +12,18 @@ public class Cliente {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "nombre_completo")
+    @Column(name = "nombre_completo", length = 100)
     private String nombreCompleto;
 
-    @Column(unique = true)
+    @Column(unique = true, length = 100, nullable = false)
     private String email;
 
+    @Column(nullable = false, length = 255)
     private String clave;
-    private String telefono;
+
+    @Lob
     private String direccion;
-    private String colorPreferido;
-    private String sitioWeb;
-    private String salario;
-    private String zona;
-    private Integer satisfaccion;
-    private String nivelEducativo;
-    private String foto;
+
+    @Column(length = 20)
+    private String telefono;
 }

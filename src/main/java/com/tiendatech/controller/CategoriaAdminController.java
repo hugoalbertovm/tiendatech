@@ -46,15 +46,6 @@ public class CategoriaAdminController {
         return "admin/categoria_form";
     }
 
-    //@GetMapping("/eliminar/{id}")
-    //public String eliminar(@PathVariable Long id) {
-    //  try {
-    //    categoriaService.eliminar(id);
-    //  return "redirect:/admin/categorias";
-    //} catch (IllegalStateException e) {
-    //  return "redirect:/admin/categorias?error=" + e.getMessage().replace(" ", "%20");
-    //}
-    //}
     @GetMapping("/eliminar/{id}")
     public String eliminar(@PathVariable Long id) {
         try {

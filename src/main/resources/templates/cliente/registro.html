@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="es"
+      xmlns:th="http://www.thymeleaf.org">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Crear cuenta - TiendaTech</title>
+        <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    </head>
+    <body>
+
+        <header>
+            <h1>TiendaTech</h1>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li><a th:href="@{/categorias}">Categorías</a></li>
+                    <li><a th:href="@{/ofertas}">Ofertas</a></li>
+                    <li><a th:href="@{/productos}">Productos</a></li>
+                    <li><a th:href="@{/carrito}">Carrito</a></li>
+                    <li><a th:href="@{/faq}">FAQ</a></li>
+                    <li><a th:href="@{/acerca}">Acerca</a></li>
+                    <li><a th:href="@{/contacto}" class="activo">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
+
+        <main class="contenedor">
+            <h2 class="titulo">Crear cuenta</h2>
+            <p class="descripcion">Regístrate para comprar en TiendaTech.</p>
+
+            <div class="formulario">
+                <form th:action="@{/registro}" th:object="${cliente}" method="post">
+
+                    <!-- Nombre completo -->
+                    <div class="campo">
+                        <label for="nombreCompleto">Nombre completo</label>
+                        <input type="text" id="nombreCompleto" th:field="*{nombreCompleto}" required>
+                        <span th:if="${#fields.hasErrors('nombreCompleto')}" th:errors="*{nombreCompleto}" class="error"></span>
+                    </div>
+
+                    <!-- Email -->
+                    <div class="campo">
+                        <label for="email">Correo electrónico</label>
+                        <input type="email" id="email" th:field="*{email}" required>
+                        <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
+                    </div>
+
+                    <!-- Contraseña -->
+                    <div class="campo">
+                        <label for="clave">Contraseña</label>
+                        <input type="password" id="clave" th:field="*{clave}" required>
+                        <span th:if="${#fields.hasErrors('clave')}" th:errors="*{clave}" class="error"></span>
+                    </div>
+
+                    <!-- Dirección -->
+                    <div class="campo">
+                        <label for="direccion">Dirección</label>
+                        <textarea id="direccion" th:field="*{direccion}" rows="3"></textarea>
+                    </div>
+
+                    <!-- Teléfono -->
+                    <div class="campo">
+                        <label for="telefono">Teléfono</label>
+                        <input type="text" id="telefono" th:field="*{telefono}">
+                    </div>
+
+                    <button type="submit" class="btn btn-primario">Crear cuenta</button>
+                </form>
+            </div>
+
+            <!-- Mensaje de éxito -->
+            <div th:if="${exito}" class="alert ok">
+                ¡Registro exitoso! Ahora puedes <a th:href="@{/login}">iniciar sesión</a>.
+            </div>
+        </main>
+
+        <footer>
+            <p>© 2025 TiendaTech - Todos los derechos reservados.</p>
+        </footer>
+
+    </body>
+</html>
