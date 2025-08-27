@@ -1,107 +1,98 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8">
-  <title>Productos - TiendaTech</title>
-  <link rel="stylesheet" th:href="@{/css/estilos.css}">
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Productos - TiendaTech</title>
+        <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    </head>
+    <body>
 
-<header>
-  <h1>TiendaTech</h1>
-  <nav>
-    <ul>
-      <li><a th:href="@{/}">Inicio</a></li>
-      <li><a th:href="@{/categorias}">Categorías</a></li>
-      <li><a th:href="@{/ofertas}">Ofertas</a></li>
-      <li><a th:href="@{/productos}" class="activo">Productos</a></li>
-      <li><a th:href="@{/carrito}">Carrito</a></li>
-      <li><a th:href="@{/faq}">FAQ</a></li>
-      <li><a th:href="@{/acerca}">Acerca</a></li>
-      <li><a th:href="@{/contacto}">Contacto</a></li>
-    </ul>
-  </nav>
-</header>
+        <header>
+            <h1>TiendaTech</h1>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li><a th:href="@{/categorias}">Categorías</a></li>
+                    <li><a th:href="@{/ofertas}">Ofertas</a></li>
+                    <li><a th:href="@{/productos}" class="activo">Productos</a></li>
+                    <li><a th:href="@{/carrito}">Carrito</a></li>
+                    <li><a th:href="@{/faq}">FAQ</a></li>
+                    <li><a th:href="@{/acerca}">Acerca</a></li>
+                    <li><a th:href="@{/contacto}">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
 
-<main class="contenedor">
-  <h2 class="titulo">Nuestros Productos</h2>
-  <p class="descripcion">Explorá el catálogo de tecnología disponible.</p>
+        <main class="contenedor">
+            <h2 class="titulo">Nuestros Productos</h2>
+            <p class="descripcion">Explorá el catálogo de tecnología disponible.</p>
 
-  <section class="productos-grid">
-    <!-- Tarjeta de producto -->
-    <article class="producto-card" th:each="p : ${productos}">
-      <img th:src="@{/img/{img}(img=${p.imagen})}" alt="Imagen del producto">
+            <section class="productos-grid">
 
-      <h3 th:text="${p.nombre}">Nombre del producto</h3>
+                <article class="producto-card" th:each="p : ${productos}">
+                    <img th:src="@{/img/{img}(img=${p.imagen})}" alt="Imagen del producto">
 
-      <!-- Precio -->
-      <p class="precio"
-         th:text="${'₡ ' + #numbers.formatDecimal(p.precio, 0, 'COMMA', 2, 'POINT')}">
-        ₡ 0,00
-      </p>
+                    <h3 th:text="${p.nombre}">Nombre del producto</h3>
 
-      <!-- Descripción corta (opcional) -->
-      <p th:if="${p.descripcion}" th:text="${p.descripcion}">Descripción</p>
+                    <p class="precio"
+                       th:text="${'₡ ' + #numbers.formatDecimal(p.precio, 0, 'COMMA', 2, 'POINT')}">
+                        ₡ 0,00
+                    </p>
 
-      <!-- Stock -->
-      <p th:text="${'Stock: ' + p.stock}">Stock: 0</p>
+                    <p th:if="${p.descripcion}" th:text="${p.descripcion}">Descripción</p>
 
-      <!-- Form para agregar al carrito -->
-      <form th:action="@{/carrito/agregar}" method="post" class="form-agregar">
-        <!-- CSRF SOLO si existe -->
-        <input type="hidden"
-               th:if="${_csrf != null}"
-               th:name="${_csrf.parameterName}"
-               th:value="${_csrf.token}"/>
+                    <p th:text="${'Stock: ' + p.stock}">Stock: 0</p>
 
-        <!-- ID producto -->
-        <input type="hidden" name="idProducto" th:value="${p.id}"/>
+                    <form th:action="@{/carrito/agregar}" method="post" class="form-agregar">
+                        <input type="hidden"
+                               th:if="${_csrf != null}"
+                               th:name="${_csrf.parameterName}"
+                               th:value="${_csrf.token}"/>
 
-        <div class="fila-controles">
-          <!-- Cantidad -->
-          <label>
-            <span>Cant.</span>
-            <input type="number"
-                   name="cantidad"
-                   value="1"
-                   min="1"
-                   th:attr="max=${p.stock}"
-                   th:disabled="${p.stock == 0}">
-          </label>
+                        <input type="hidden" name="idProducto" th:value="${p.id}"/>
 
-          <!-- Color (select) -->
-          <label>
-            <span>Color</span>
-            <select name="color" aria-label="Elegir color" th:disabled="${p.stock == 0}">
-              <option value="" selected>—</option>
-              <option>Negro</option>
-              <option>Blanco</option>
-              <option>Plata</option>
-              <option>Gris</option>
-              <option>Azul</option>
-              <option>Rojo</option>
-              <option>Verde</option>
-            </select>
-          </label>
-        </div>
+                        <div class="fila-controles">
+                            <label>
+                                <span>Cant.</span>
+                                <input type="number"
+                                       name="cantidad"
+                                       value="1"
+                                       min="1"
+                                       th:attr="max=${p.stock}"
+                                       th:disabled="${p.stock == 0}">
+                            </label>
+                            <label>
+                                <span>Color</span>
+                                <select name="color" aria-label="Elegir color" th:disabled="${p.stock == 0}">
+                                    <option value="" selected>—</option>
+                                    <option>Negro</option>
+                                    <option>Blanco</option>
+                                    <option>Plata</option>
+                                    <option>Gris</option>
+                                    <option>Azul</option>
+                                    <option>Rojo</option>
+                                    <option>Verde</option>
+                                </select>
+                            </label>
+                        </div>
 
-        <button type="submit"
-                class="boton-agregar"
-                th:disabled="${p.stock == 0}">
-          Agregar al carrito
-        </button>
-      </form>
-    </article>
-  </section>
+                        <button type="submit"
+                                class="boton-agregar"
+                                th:disabled="${p.stock == 0}">
+                            Agregar al carrito
+                        </button>
+                    </form>
+                </article>
+            </section>
 
-  <p th:if="${productos == null or #lists.isEmpty(productos)}" class="mensaje-vacio">
-    No hay productos disponibles.
-  </p>
-</main>
+            <p th:if="${productos == null or #lists.isEmpty(productos)}" class="mensaje-vacio">
+                No hay productos disponibles.
+            </p>
+        </main>
 
-<footer>
-  <p>© 2025 TiendaTech - Todos los derechos reservados.</p>
-</footer>
+        <footer>
+            <p>© 2025 TiendaTech - Todos los derechos reservados.</p>
+        </footer>
 
-</body>
+    </body>
 </html>

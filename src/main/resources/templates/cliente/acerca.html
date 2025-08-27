@@ -27,9 +27,7 @@
                 <h2 class="titulo">Acerca de TiendaTech</h2>
 
                 <div class="acerca-bloque">
-                    <!-- Columna de texto -->
                     <div class="acerca-texto">
-                        <!-- Título interno opcional (evita duplicar el H2) -->
                         <h3
                             th:if="${acerca != null
                             and !#strings.isEmpty(acerca.titulo)
@@ -65,7 +63,6 @@
 
                     </div>
 
-                    <!-- Columna de imagen -->
                     <div class="acerca-imagen"
                          th:if="${acerca != null and !#strings.isEmpty(#strings.trim(acerca.imagen))}">
                         <img th:src="@{'/img/' + ${#strings.trim(acerca.imagen)}}" alt="Acerca" />

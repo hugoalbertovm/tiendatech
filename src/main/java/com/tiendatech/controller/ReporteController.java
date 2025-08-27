@@ -18,29 +18,9 @@ public class ReporteController {
     @Autowired
     private ReporteService reporteService;
 
-    @GetMapping("/articulos")
-    public ResponseEntity<Resource> generarReporteArticulos(@RequestParam String tipo) throws IOException {
-        Map<String, Object> parametros = new HashMap<>();
-        return reporteService.generaReporte("articulo", parametros, tipo);
+    @GetMapping("/carrito")
+    public ResponseEntity<Resource> carrito(@RequestParam(defaultValue = "Pdf") String tipo) throws IOException {
+        Map<String, Object> params = new HashMap<>();
+        return reporteService.generaReporte("carrito", params, tipo);
     }
-
-    @GetMapping("/articulosFecha")
-    public ResponseEntity<Resource> generarReportePorFecha(
-            @RequestParam String tipo,
-            @RequestParam String fechaInicio,
-            @RequestParam String fechaFin) throws IOException {
-
-        Map<String, Object> parametros = new HashMap<>();
-        parametros.put("fechaInicio", java.sql.Date.valueOf(fechaInicio));
-        parametros.put("fechaFin", java.sql.Date.valueOf(fechaFin));
-
-        return reporteService.generaReporte("articulos_param", parametros, tipo);
-    }
-
-    @GetMapping("/categorias")
-    public ResponseEntity<Resource> generarReporteCategorias(@RequestParam String tipo) throws IOException {
-        Map<String, Object> parametros = new HashMap<>();
-        return reporteService.generaReporte("categorias", parametros, tipo);
-    }
-
 }

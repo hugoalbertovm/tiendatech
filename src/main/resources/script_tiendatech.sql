@@ -87,9 +87,7 @@ VALUES ('Admin Principal', 'admin@tiendatech.com', 'admin123', 'admin.png');
 
 COMMIT;
 
-/* =========================
-   ACERCA (Intro / Misión / Visión / Valores)
-   ========================= */
+-- Crear la tabla 'acerca'
 CREATE TABLE IF NOT EXISTS `acerca` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `titulo` VARCHAR(150) NOT NULL,
@@ -110,17 +108,13 @@ VALUES (
   'Proveer tecnología de calidad y accesible para mejorar la vida de las personas.',
   'Ser la tienda líder en tecnología en Latinoamérica, reconocida por la innovación y el servicio.',
   '• Compromiso\n• Innovación\n• Calidad\n• Servicio al cliente',
-  'equipo.jpg',          -- o NULL si no tienes imagen aún
+  'equipo.jpg',
   NOW()
 );
 
 COMMIT;
 
-
-
-/* =========================
-   FAQ (acordeón administrable)
-   ========================= */
+-- Crear la tabla 'faq'
 CREATE TABLE IF NOT EXISTS `faq` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `pregunta` VARCHAR(255) NOT NULL,
@@ -138,9 +132,7 @@ INSERT INTO faq (pregunta, respuesta, activa, orden) VALUES
 ('¿Cómo puedo solicitar un reembolso?', 'Escríbenos con tu número de orden y te guiamos.', 1, 4);
 COMMIT;
 
-/* =========================
-   FAQ_FORM (respuestas del formulario grande en FAQ)
-   ========================= */
+-- Crear la tabla 'faq_form'
 CREATE TABLE IF NOT EXISTS `faq_form` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `usuario_email` VARCHAR(120) NOT NULL,
@@ -162,9 +154,7 @@ CREATE TABLE IF NOT EXISTS `faq_form` (
   CONSTRAINT `chk_faqform_satisfaccion` CHECK (`nivel_satisfaccion` BETWEEN 0 AND 10)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-/* =========================
-   CONTACTO (mensajes del formulario)
-   ========================= */
+-- Crear la tabla 'contacto'
 CREATE TABLE IF NOT EXISTS `contacto` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `nombre` VARCHAR(100) NOT NULL,
@@ -177,9 +167,7 @@ CREATE TABLE IF NOT EXISTS `contacto` (
   KEY `idx_contacto_correo` (`correo`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-/* =========================
-   CONTACTO_INFO (datos fijos mostrados: Teléfono, Email, Dirección/Mapa, Horario)
-   ========================= */
+-- Crear la tabla 'contacto_info'
 CREATE TABLE IF NOT EXISTS `contacto_info` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `telefono_publico` VARCHAR(25) DEFAULT NULL,
@@ -191,9 +179,7 @@ CREATE TABLE IF NOT EXISTS `contacto_info` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-/* =========================
-   CARRITO (encabezado)
-   ========================= */
+-- Crear la tabla 'carrito'
 CREATE TABLE IF NOT EXISTS `carrito` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `id_usuario` BIGINT DEFAULT NULL,
@@ -206,9 +192,7 @@ CREATE TABLE IF NOT EXISTS `carrito` (
     ON DELETE SET NULL ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-/* =========================
-   CARRITO_ITEM (detalle con cantidad ± y precio snapshot)
-   ========================= */
+-- Crear la tabla 'carrito_item'
 CREATE TABLE IF NOT EXISTS `carrito_item` (
   `id` BIGINT NOT NULL AUTO_INCREMENT,
   `id_carrito` BIGINT NOT NULL,
@@ -225,18 +209,14 @@ CREATE TABLE IF NOT EXISTS `carrito_item` (
     ON DELETE RESTRICT ON UPDATE RESTRICT
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
--- Quitar el único antiguo para permitir la combinación con color
 ALTER TABLE carrito_item
   DROP INDEX uq_carrito_producto;
 
--- Agregar columnas para variantes y un snapshot visual opcional
 ALTER TABLE carrito_item
   ADD COLUMN color VARCHAR(30) NOT NULL DEFAULT '' AFTER id_producto,
-  -- Si tu MySQL soporta JSON (5.7+ / 8.0+), deja JSON; si no, usa TEXT (ver alternativa abajo)
   ADD COLUMN atributos JSON NULL AFTER color,
   ADD COLUMN nombre_producto VARCHAR(120) NULL AFTER precio_unitario,
   ADD COLUMN imagen VARCHAR(255) NULL AFTER nombre_producto;
 
--- Evita duplicados del mismo producto+color dentro del mismo carrito
 CREATE UNIQUE INDEX uq_carrito_producto_color
   ON carrito_item (id_carrito, id_producto, color);

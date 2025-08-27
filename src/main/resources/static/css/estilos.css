@@ -764,7 +764,7 @@ main:has(.contacto-container){
 /* Contacto — gutters/márgenes laterales cómodos */
 .contacto-container{
   /* centrado y respiración horizontal */
-  max-width: 1100px;          /* igual que tu .contenedor */
+  max-width: 1100px;
   margin: 0 auto 28px;        /* espacio inferior */
   padding: 0 16px;            /* <- GUTTERS a los lados */
   display: grid;
@@ -831,7 +831,7 @@ main:has(.contacto-container) .titulo{
 .mapa-container iframe{
   display:block;
   width:100%;
-  height:420px;    /* ajustá si querés más/menos alto */
+  height:420px;
   border:0;
 }
 
@@ -948,14 +948,11 @@ main.contenedor{
     padding-top: var(--page-gap);
 }
 
-/* Home con banner: quitamos el gap del <main> y se lo damos al héroe */
 main:has(.banner-inicio){
     padding-top: 0;
 }
 
 main:has(.banner-inicio) .bienvenida{
-    /* aire propio del héroe (arriba) y un poco abajo para que no
-       se pegue al borde superior de la imagen */
     padding-top: clamp(2.25rem, 5vw, 4.75rem);
     padding-bottom: 18px;
     margin-top: 0;
@@ -1245,7 +1242,6 @@ main.contenedor{
   transform-origin: top center; transform: scaleY(1);
 }
 
-/* Botón ver/ocultar password (si no lo tenías aún) */
 .pass-row .toggle-pass{
   position:absolute; right: 10px; top: 50%; transform: translateY(-50%);
   border:0; background: transparent; padding: 4px; line-height: 0; cursor: pointer;
@@ -1355,7 +1351,7 @@ header{
 .auth-actions{
   position: absolute;
   right: 16px;
-  top: 18px;                 /* separa del borde superior; ajusta a tu gusto: 18–26px */
+  top: 18px;           
   display: flex;
   gap: 10px;
   align-items: center;
@@ -1410,7 +1406,7 @@ header{
 
 /* 3) Compactar un poco los botones en anchos intermedios para que quepan */
 @media (min-width: 992px) and (max-width: 1500px){
-  nav ul{ gap: 14px; }                 /* antes 18px */
+  nav ul{ gap: 14px; }        
   .auth-actions .btn{
     padding: .42rem .78rem;
     font-size: .90rem;

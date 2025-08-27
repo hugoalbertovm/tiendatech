@@ -1,46 +1,45 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-  <head>
-    <meta charset="UTF-8">
-    <title>Categorías - TiendaTech</title>
-    <link rel="stylesheet" th:href="@{/css/estilos.css}">
-  </head>
-  <body>
+    <head>
+        <meta charset="UTF-8">
+        <title>Categorías - TiendaTech</title>
+        <link rel="stylesheet" th:href="@{/css/estilos.css}">
+    </head>
+    <body>
 
-    <header>
-      <h1>TiendaTech</h1>
-      <nav>
-        <ul>
-          <li><a th:href="@{/}">Inicio</a></li>
-          <li><a th:href="@{/categorias}" class="activo">Categorías</a></li>
-          <li><a th:href="@{/ofertas}">Ofertas</a></li>
-          <li><a th:href="@{/productos}">Productos</a></li>
-          <li><a th:href="@{/carrito}">Carrito</a></li>
-          <li><a th:href="@{/faq}">FAQ</a></li>
-          <li><a th:href="@{/acerca}">Acerca</a></li>
-          <li><a th:href="@{/contacto}">Contacto</a></li>
-        </ul>
-      </nav>
-    </header>
+        <header>
+            <h1>TiendaTech</h1>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li><a th:href="@{/categorias}" class="activo">Categorías</a></li>
+                    <li><a th:href="@{/ofertas}">Ofertas</a></li>
+                    <li><a th:href="@{/productos}">Productos</a></li>
+                    <li><a th:href="@{/carrito}">Carrito</a></li>
+                    <li><a th:href="@{/faq}">FAQ</a></li>
+                    <li><a th:href="@{/acerca}">Acerca</a></li>
+                    <li><a th:href="@{/contacto}">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
 
-    <main>
-      <!-- 👇 Agregado 'categorias' aquí -->
-      <section class="contenedor categorias">
-        <h2 class="titulo">Categorías disponibles</h2>
-        <p class="descripcion">Explorá los distintos tipos de productos que tenemos para vos.</p>
+        <main>
+            <section class="contenedor categorias">
+                <h2 class="titulo">Categorías disponibles</h2>
+                <p class="descripcion">Explorá los distintos tipos de productos que tenemos para vos.</p>
 
-        <div class="galeria-categorias">
-          <div class="tarjeta-categoria" th:each="categoria : ${categorias}">
-            <img th:src="@{/img/{img}(img=${categoria.imagen})}" alt="Imagen categoría">
-            <h3 th:text="${categoria.nombre}">Nombre Categoría</h3>
-          </div>
-        </div>
-      </section>
-    </main>
+                <div class="galeria-categorias">
+                    <div class="tarjeta-categoria" th:each="categoria : ${categorias}">
+                        <img th:src="@{/img/{img}(img=${categoria.imagen})}" alt="Imagen categoría">
+                        <h3 th:text="${categoria.nombre}">Nombre Categoría</h3>
+                    </div>
+                </div>
+            </section>
+        </main>
 
-    <footer>
-      <p>© 2025 TiendaTech - Todos los derechos reservados.</p>
-    </footer>
+        <footer>
+            <p>© 2025 TiendaTech - Todos los derechos reservados.</p>
+        </footer>
 
-  </body>
+    </body>
 </html>

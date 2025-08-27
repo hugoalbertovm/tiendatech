@@ -32,34 +32,29 @@
             <div class="formulario">
                 <form th:action="@{/registro}" th:object="${cliente}" method="post">
 
-                    <!-- Nombre completo -->
                     <div class="campo">
                         <label for="nombreCompleto">Nombre completo</label>
                         <input type="text" id="nombreCompleto" th:field="*{nombreCompleto}" required>
                         <span th:if="${#fields.hasErrors('nombreCompleto')}" th:errors="*{nombreCompleto}" class="error"></span>
                     </div>
 
-                    <!-- Email -->
                     <div class="campo">
                         <label for="email">Correo electrónico</label>
                         <input type="email" id="email" th:field="*{email}" required>
                         <span th:if="${#fields.hasErrors('email')}" th:errors="*{email}" class="error"></span>
                     </div>
 
-                    <!-- Contraseña -->
                     <div class="campo">
                         <label for="clave">Contraseña</label>
                         <input type="password" id="clave" th:field="*{clave}" required>
                         <span th:if="${#fields.hasErrors('clave')}" th:errors="*{clave}" class="error"></span>
                     </div>
 
-                    <!-- Dirección -->
                     <div class="campo">
                         <label for="direccion">Dirección</label>
                         <textarea id="direccion" th:field="*{direccion}" rows="3"></textarea>
                     </div>
 
-                    <!-- Teléfono -->
                     <div class="campo">
                         <label for="telefono">Teléfono</label>
                         <input type="text" id="telefono" th:field="*{telefono}">
@@ -69,7 +64,6 @@
                 </form>
             </div>
 
-            <!-- Mensaje de éxito -->
             <div th:if="${exito}" class="alert ok">
                 ¡Registro exitoso! Ahora puedes <a th:href="@{/login}">iniciar sesión</a>.
             </div>

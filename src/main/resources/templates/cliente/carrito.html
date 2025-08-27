@@ -1,98 +1,93 @@
 <!DOCTYPE html>
 <html lang="es" xmlns:th="http://www.thymeleaf.org">
-<head>
-  <meta charset="UTF-8" />
-  <title>Carrito - TiendaTech</title>
-  <link rel="stylesheet" th:href="@{/css/estilos.css}" />
-</head>
-<body>
+    <head>
+        <meta charset="UTF-8" />
+        <title>Carrito - TiendaTech</title>
+        <link rel="stylesheet" th:href="@{/css/estilos.css}" />
+    </head>
+    <body>
 
-<header>
-  <h1>TiendaTech</h1>
-  <nav>
-    <ul>
-      <li><a th:href="@{/}">Inicio</a></li>
-      <li><a th:href="@{/categorias}">Categorías</a></li>
-      <li><a th:href="@{/ofertas}">Ofertas</a></li>
-      <li><a th:href="@{/productos}">Productos</a></li>
-      <li><a th:href="@{/carrito}" class="activo">Carrito</a></li>
-      <li><a th:href="@{/faq}">FAQ</a></li>
-      <li><a th:href="@{/acerca}">Acerca</a></li>
-      <li><a th:href="@{/contacto}">Contacto</a></li>
-    </ul>
-  </nav>
-</header>
+        <header>
+            <h1>TiendaTech</h1>
+            <nav>
+                <ul>
+                    <li><a th:href="@{/}">Inicio</a></li>
+                    <li><a th:href="@{/categorias}">Categorías</a></li>
+                    <li><a th:href="@{/ofertas}">Ofertas</a></li>
+                    <li><a th:href="@{/productos}">Productos</a></li>
+                    <li><a th:href="@{/carrito}" class="activo">Carrito</a></li>
+                    <li><a th:href="@{/faq}">FAQ</a></li>
+                    <li><a th:href="@{/acerca}">Acerca</a></li>
+                    <li><a th:href="@{/contacto}">Contacto</a></li>
+                </ul>
+            </nav>
+        </header>
 
-<main class="contenedor">
-  <h2 class="titulo">Tu Carrito</h2>
-  <p class="descripcion">Revisá tus productos y completá tu compra.</p>
+        <main class="contenedor">
+            <h2 class="titulo">Tu Carrito</h2>
+            <p class="descripcion">Revisá tus productos y completá tu compra.</p>
 
-  <!-- Carrito vacío -->
-  <p class="mensaje-vacio" th:if="${items == null or #lists.isEmpty(items)}">
-    Aún no tenés productos en el carrito.
-    <a th:href="@{/productos}" class="btn-primario" style="margin-left:.5rem;">Ir a productos</a>
-  </p>
+            <p class="mensaje-vacio" th:if="${items == null or #lists.isEmpty(items)}">
+                Aún no tenés productos en el carrito.
+                <a th:href="@{/productos}" class="btn-primario" style="margin-left:.5rem;">Ir a productos</a>
+            </p>
 
-  <!-- Layout: items + resumen -->
-  <div class="carrito-layout" th:if="${items != null and !#lists.isEmpty(items)}">
+            <div class="carrito-layout" th:if="${items != null and !#lists.isEmpty(items)}">
 
-    <!-- Ítems -->
-    <section class="carrito-grid">
-      <article class="carrito-card" th:each="it : ${items}">
-        <img th:if="${it.imagen}" th:src="@{/img/{img}(img=${it.imagen})}" alt="Imagen del producto" />
+                <section class="carrito-grid">
+                    <article class="carrito-card" th:each="it : ${items}">
+                        <img th:if="${it.imagen}" th:src="@{/img/{img}(img=${it.imagen})}" alt="Imagen del producto" />
 
-        <div class="carrito-info">
-          <h3 th:text="${it.nombreProducto}">Producto</h3>
-          <p><span class="muted">Color:</span>
-            <span th:text="${(it.color != null && it.color != '' ? it.color : '—')}">—</span>
-          </p>
-          <p class="line">
-            <span class="muted">Precio unidad:</span>
-            <strong th:text="${'₡ ' + #numbers.formatDecimal(it.precioUnitario, 0, 'COMMA', 2, 'POINT')}">₡ 0,00</strong>
-          </p>
-          <p class="line"><span class="muted">Cantidad:</span> <span th:text="${it.cantidad}">1</span></p>
+                        <div class="carrito-info">
+                            <h3 th:text="${it.nombreProducto}">Producto</h3>
+                            <p><span class="muted">Color:</span>
+                                <span th:text="${(it.color != null && it.color != '' ? it.color : '—')}">—</span>
+                            </p>
+                            <p class="line">
+                                <span class="muted">Precio unidad:</span>
+                                <strong th:text="${'₡ ' + #numbers.formatDecimal(it.precioUnitario, 0, 'COMMA', 2, 'POINT')}">₡ 0,00</strong>
+                            </p>
+                            <p class="line"><span class="muted">Cantidad:</span> <span th:text="${it.cantidad}">1</span></p>
 
-          <!-- Subtotal (fix: longValue para BigDecimal.valueOf) -->
-          <p class="precio"
-             th:text="${'Subtotal: ₡ ' + #numbers.formatDecimal(
-                        it.precioUnitario.multiply(
-                          T(java.math.BigDecimal).valueOf(it.cantidad.longValue())
-                        ), 0, 'COMMA', 2, 'POINT')}">
-            Subtotal
-          </p>
-        </div>
+                            <p class="precio"
+                               th:text="${'Subtotal: ₡ ' + #numbers.formatDecimal(
+                               it.precioUnitario.multiply(
+                               T(java.math.BigDecimal).valueOf(it.cantidad.longValue())
+                               ), 0, 'COMMA', 2, 'POINT')}">
+                                Subtotal
+                            </p>
+                        </div>
 
-        <form th:action="@{'/carrito/quitar/' + ${it.id}}" method="post" class="carrito-acciones">
-          <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-          <button type="submit" class="btn-outline-peligro btn-sm btn-pill">Quitar</button>
-        </form>
-      </article>
-    </section>
+                        <form th:action="@{'/carrito/quitar/' + ${it.id}}" method="post" class="carrito-acciones">
+                            <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                            <button type="submit" class="btn-outline-peligro btn-sm btn-pill">Quitar</button>
+                        </form>
+                    </article>
+                </section>
 
-    <!-- Resumen -->
-    <aside class="carrito-resumen">
-      <div class="resumen-card">
-        <h3>Resumen</h3>
-        <p class="muted" th:text="${'Artículos: ' + totalItems}">Artículos: 0</p>
-        <p class="total" th:text="${'₡ ' + #numbers.formatDecimal(total, 0, 'COMMA', 2, 'POINT')}">₡ 0,00</p>
+                <aside class="carrito-resumen">
+                    <div class="resumen-card">
+                        <h3>Resumen</h3>
+                        <p class="muted" th:text="${'Artículos: ' + totalItems}">Artículos: 0</p>
+                        <p class="total" th:text="${'₡ ' + #numbers.formatDecimal(total, 0, 'COMMA', 2, 'POINT')}">₡ 0,00</p>
 
-        <div class="resumen-acciones">
-          <form th:action="@{/carrito/vaciar}" method="post">
-            <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
-            <button type="submit" class="btn-outline-peligro">Vaciar carrito</button>
-          </form>
-          <a th:href="@{/productos}" class="btn-secundario">Seguir comprando</a>
-          <a th:href="@{/checkout}" class="btn-primario">Ir al pago</a>
-        </div>
-      </div>
-    </aside>
+                        <div class="resumen-acciones">
+                            <form th:action="@{/carrito/vaciar}" method="post">
+                                <input type="hidden" th:if="${_csrf != null}" th:name="${_csrf.parameterName}" th:value="${_csrf.token}">
+                                <button type="submit" class="btn-outline-peligro">Vaciar carrito</button>
+                            </form>
+                            <a th:href="@{/productos}" class="btn-secundario">Seguir comprando</a>
+                            <a th:href="@{/checkout}" class="btn-primario">Ir al pago</a>
+                        </div>
+                    </div>
+                </aside>
 
-  </div>
-</main>
+            </div>
+        </main>
 
-<footer>
-  <p>© 2025 TiendaTech - Todos los derechos reservados.</p>
-</footer>
+        <footer>
+            <p>© 2025 TiendaTech - Todos los derechos reservados.</p>
+        </footer>
 
-</body>
+    </body>
 </html>
